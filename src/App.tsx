@@ -178,7 +178,14 @@ export default function App() {
             <span>교통카드 & 현금 시뮬레이션</span>
           </div>
 
-          <div className="text-right">
+          <div className="flex items-center gap-3">
+            <a
+              href="/convenience-store-learning-game.zip"
+              download="convenience-store-learning-game.zip"
+              className="text-amber-800 hover:text-amber-950 font-black flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-xl border border-amber-300 transition-colors"
+            >
+              <span>📦 전체 소스코드 ZIP 다운로드</span>
+            </a>
             <button
               onClick={() => setIsCertificateOpen(true)}
               className="text-amber-800 hover:text-amber-900 font-bold underline cursor-pointer"
