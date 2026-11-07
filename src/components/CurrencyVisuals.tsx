@@ -10,11 +10,11 @@ export const REAL_BILL_10000_PATH = '/src/assets/images/photo_bill_10000_1794019
 export const REAL_BILL_5000_PATH = '/src/assets/images/photo_bill_5000_1794019538758.jpg';
 export const REAL_BILL_1000_PATH = '/src/assets/images/korean_bill_1000_1794017499620.jpg';
 
-// Real individual front-face (앞면) photos for all coins
-export const REAL_COIN_500_FRONT = '/src/assets/images/coin_500_front_1794019944387.jpg';
-export const REAL_COIN_100_FRONT = '/src/assets/images/coin_100_front_1794019943974.jpg';
-export const REAL_COIN_50_FRONT = '/src/assets/images/coin_50_front_1794019945546.jpg';
-export const REAL_COIN_10_FRONT = '/src/assets/images/coin_10_front_1794019944929.jpg';
+// Modern current-circulation South Korean coin photos (신형 10원 및 현용 주화)
+export const REAL_COIN_500_FRONT = '/src/assets/images/new_coin_500_krw_1794020113930.jpg';
+export const REAL_COIN_100_FRONT = '/src/assets/images/new_coin_100_krw_1794020113910.jpg';
+export const REAL_COIN_50_FRONT = '/src/assets/images/new_coin_50_krw_1794020113828.jpg';
+export const REAL_COIN_10_FRONT = '/src/assets/images/new_coin_10_krw_1794020112726.jpg';
 
 interface BillProps {
   amount: 1000 | 5000 | 10000;
@@ -24,7 +24,7 @@ interface BillProps {
 }
 
 /**
- * Korean Banknote with 100% Real Photo, background removed, isolated clean paper look
+ * Korean Banknote with 100% Real Photo
  */
 export const KoreanBill: React.FC<BillProps> = ({
   amount,
@@ -88,10 +88,9 @@ interface CoinProps {
 }
 
 /**
- * 100% Pure Isolated Front-Face (앞면) Coin Photo Component
- * - Pure circular cutout with zero background box
- * - Clean drop shadow matching real physical currency
- * - No text overlay covering the coin face
+ * 100% Modern Real Photo Coin Component (신형 10원 및 현용 주화)
+ * - Pure isolated circular coin with no background
+ * - Real macro photography of currently circulating coins in Korea
  */
 export const KoreanCoin: React.FC<CoinProps> = ({
   amount,
@@ -99,57 +98,56 @@ export const KoreanCoin: React.FC<CoinProps> = ({
   className = '',
   size = 'md',
 }) => {
-  // Proportional coin sizes (500 > 100 > 50 > 10)
+  // Proportional modern coin sizes (500 > 100 > 50 > 10)
   const sizeClasses = {
     sm: {
       500: 'w-15 h-15',
       100: 'w-14 h-14',
       50: 'w-13 h-13',
-      10: 'w-12 h-12',
+      10: 'w-11 h-11', // New 10 won is compact 18mm
     }[amount],
     md: {
       500: 'w-22 h-22',
       100: 'w-20 h-20',
       50: 'w-18 h-18',
-      10: 'w-16 h-16',
+      10: 'w-15 h-15',
     }[amount],
     lg: {
       500: 'w-28 h-28',
       100: 'w-25 h-25',
       50: 'w-23 h-23',
-      10: 'w-21 h-21',
+      10: 'w-19 h-19',
     }[amount],
   }[size];
 
   const config = {
     500: {
       img: REAL_COIN_500_FRONT,
-      alt: '500원 실제 동전 앞면 사진 (학)',
+      alt: '500원 최신 현용 동전 실물 사진 (학)',
       label: '500원',
     },
     100: {
       img: REAL_COIN_100_FRONT,
-      alt: '100원 실제 동전 앞면 사진 (이순신 장군)',
+      alt: '100원 최신 현용 동전 실물 사진 (이순신 장군)',
       label: '100원',
     },
     50: {
       img: REAL_COIN_50_FRONT,
-      alt: '50원 실제 동전 앞면 사진 (벼 이삭)',
+      alt: '50원 최신 현용 동전 실물 사진 (벼 이삭)',
       label: '50원',
     },
     10: {
       img: REAL_COIN_10_FRONT,
-      alt: '10원 실제 동전 앞면 사진 (다보탑)',
-      label: '10원',
+      alt: '10원 최신 신형 적동색 동전 실물 사진 (다보탑)',
+      label: '10원 (신형)',
     },
   }[amount];
 
   return (
     <div
       className={`relative rounded-full select-none shrink-0 filter drop-shadow-md overflow-hidden bg-transparent flex items-center justify-center ${sizeClasses} ${className}`}
-      title={`${config.label} 실제 동전 앞면`}
+      title={`${config.label} 최신 현용 실물 사진`}
     >
-      {/* 100% Real Front-Face Macro Coin Photo */}
       <img
         src={config.img}
         alt={config.alt}
@@ -168,24 +166,24 @@ export const KoreanCoin: React.FC<CoinProps> = ({
 };
 
 /**
- * Real Currency Front-Face Showcase Guide Banner
+ * Modern Currency Front-Face Showcase Guide Banner
  */
 export const RealCurrencyGuideBanner: React.FC = () => {
   return (
     <div className="bg-amber-50 rounded-2xl border-2 border-amber-300 p-4 space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-sm font-black text-amber-950 flex items-center gap-1.5">
-          <span>🪙 실제 대한민국 화폐 앞면 실물 사진</span>
+          <span>🪙 최근 사용하는 최신 현용 동전 & 지폐 실물 사진 도감</span>
         </span>
-        <span className="text-xs text-slate-600 font-bold">
-          동전 앞면 통일 및 배경 제거
+        <span className="text-xs text-emerald-800 font-bold bg-emerald-100 px-2.5 py-0.5 rounded-md">
+          신형 10원 포함 최신 유통 주화 적용
         </span>
       </div>
 
-      {/* 4 Isolated Real Front-Face Coins Row */}
+      {/* 4 Isolated Modern Coins Row */}
       <div className="bg-white/80 rounded-2xl p-4 border border-amber-200">
         <span className="text-xs font-black text-slate-800 block mb-2 text-center">
-          동전 앞면 실물 사진 (500원 학 · 100원 이순신 · 50원 벼 · 10원 다보탑)
+          최신 현용 동전 실물 사진 (500원 백동 · 100원 백동 · 50원 백동 · 신형 10원 적동색 미니)
         </span>
         <div className="flex items-center justify-around gap-2">
           <div className="flex flex-col items-center">
@@ -198,11 +196,11 @@ export const RealCurrencyGuideBanner: React.FC = () => {
           </div>
           <div className="flex flex-col items-center">
             <KoreanCoin amount={50} size="md" />
-            <span className="text-xs font-black text-slate-800 mt-1">50원 (벼)</span>
+            <span className="text-xs font-black text-slate-800 mt-1">50원 (벼 50)</span>
           </div>
           <div className="flex flex-col items-center">
             <KoreanCoin amount={10} size="md" />
-            <span className="text-xs font-black text-slate-800 mt-1">10원 (다보탑)</span>
+            <span className="text-xs font-black text-amber-800 mt-1">신형 10원 (적동색)</span>
           </div>
         </div>
       </div>
