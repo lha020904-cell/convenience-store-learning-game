@@ -1,0 +1,8 @@
+{
+  "name": "도전! 편의점 쇼핑왕 (특수학급 중학생 편의점 경제 교실)",
+  "description": "특수학급 중학생을 위한 맞춤형 편의점 물건 구매 교육용 게임. 가격표 읽기, 구매 목록 확인, 물건 고르기, 점원과 대화하기, 계산대 화폐 결제까지 단계별로 재미있게 학습합니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
