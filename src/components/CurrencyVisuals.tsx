@@ -5,7 +5,9 @@
 
 import React from 'react';
 
-// Real photo paths
+// Real photo paths for all banknotes and coins
+export const REAL_BILL_10000_PATH = '/src/assets/images/photo_bill_10000_1794019538374.jpg';
+export const REAL_BILL_5000_PATH = '/src/assets/images/photo_bill_5000_1794019538758.jpg';
 export const REAL_BILL_1000_PATH = '/src/assets/images/korean_bill_1000_1794017499620.jpg';
 export const REAL_COINS_SET_PATH = '/src/assets/images/korean_coins_set_1794017499452.jpg';
 
@@ -17,7 +19,7 @@ interface BillProps {
 }
 
 /**
- * Korean Banknote with Real Photo (1,000원) and authentic photo-grade banknote styling
+ * 100% Real Photo Korean Banknote Component (10,000원, 5,000원, 1,000원)
  */
 export const KoreanBill: React.FC<BillProps> = ({
   amount,
@@ -26,112 +28,55 @@ export const KoreanBill: React.FC<BillProps> = ({
   size = 'md',
 }) => {
   const sizeClasses = {
-    sm: 'w-28 h-16 text-[10px]',
-    md: 'w-44 h-24 text-xs',
-    lg: 'w-60 h-32 text-sm',
+    sm: 'w-32 h-18 text-[11px]',
+    md: 'w-48 h-26 text-xs',
+    lg: 'w-64 h-36 text-sm',
   }[size];
 
-  // 1,000 won uses the real genuine banknote photo!
-  if (amount === 1000) {
-    return (
-      <div
-        className={`relative rounded-xl overflow-hidden border-2 border-sky-400 shadow-md bg-white select-none shrink-0 ${sizeClasses} ${className}`}
-      >
-        <img
-          src={REAL_BILL_1000_PATH}
-          alt="1000원 실제 지폐 사진 (퇴계 이황)"
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-contain bg-sky-50"
-        />
-        <div className="absolute bottom-0 inset-x-0 bg-sky-900/80 text-white font-black text-center text-[10px] sm:text-xs py-0.5">
-          1,000원 실물 지폐
-        </div>
-
-        {count !== undefined && count > 0 && (
-          <span className="absolute -top-1 -right-1 bg-slate-950 text-white font-black text-xs px-2 py-0.5 rounded-full shadow-lg border-2 border-white">
-            × {count}장
-          </span>
-        )}
-      </div>
-    );
-  }
-
-  // 10,000 won (King Sejong, Green) & 5,000 won (Yulgok Yi I, Orange)
-  const is10k = amount === 10000;
-  const config = is10k
-    ? {
-        bg: 'bg-emerald-50 border-emerald-500 text-emerald-950',
-        label: '10,000원',
-        person: '세종대왕',
-        personImgText: '세종',
-        badgeColor: 'bg-emerald-600',
-        ribbonColor: 'bg-emerald-200 text-emerald-900',
-        watermark: '조선 4대 왕 세종대왕',
-      }
-    : {
-        bg: 'bg-orange-50 border-orange-500 text-orange-950',
-        label: '5,000원',
-        person: '율곡 이이',
-        personImgText: '이이',
-        badgeColor: 'bg-orange-600',
-        ribbonColor: 'bg-orange-200 text-orange-900',
-        watermark: '조선 학자 율곡 이이',
-      };
+  const config = {
+    10000: {
+      img: REAL_BILL_10000_PATH,
+      alt: '10,000원 실제 지폐 실물 사진 (세종대왕)',
+      label: '10,000원 (만 원)',
+      border: 'border-emerald-600',
+      badgeBg: 'bg-emerald-800',
+    },
+    5000: {
+      img: REAL_BILL_5000_PATH,
+      alt: '5,000원 실제 지폐 실물 사진 (율곡 이이)',
+      label: '5,000원 (오천 원)',
+      border: 'border-orange-600',
+      badgeBg: 'bg-orange-800',
+    },
+    1000: {
+      img: REAL_BILL_1000_PATH,
+      alt: '1,000원 실제 지폐 실물 사진 (퇴계 이황)',
+      label: '1,000원 (천 원)',
+      border: 'border-sky-600',
+      badgeBg: 'bg-sky-800',
+    },
+  }[amount];
 
   return (
     <div
-      className={`relative rounded-xl border-3 ${config.bg} ${sizeClasses} shadow-md select-none flex flex-col justify-between p-2 font-mono shrink-0 overflow-hidden ${className}`}
+      className={`relative rounded-2xl overflow-hidden border-3 ${config.border} shadow-md bg-white select-none shrink-0 ${sizeClasses} ${className}`}
     >
-      {/* Top Bar: Bank of Korea & Number */}
-      <div className="flex justify-between items-center leading-none">
-        <span className="font-sans font-black text-[9px] sm:text-[11px] text-slate-800 tracking-tight">
-          한국은행권
-        </span>
-        <span className="font-black text-xs sm:text-sm tracking-tight text-slate-900">
-          {amount.toLocaleString()}
-        </span>
-      </div>
-
-      {/* Center Layout: Realistic Portrait & Value */}
-      <div className="flex items-center justify-between my-auto">
-        <div className="flex items-center gap-2">
-          {/* Portrait Stamp */}
-          <div className="w-8 h-10 sm:w-10 sm:h-12 rounded-md bg-white border-2 border-slate-400 shadow-inner flex flex-col items-center justify-center p-0.5">
-            <span className="text-base sm:text-lg">👤</span>
-            <span className="font-sans text-[8px] sm:text-[9px] font-black text-slate-800 leading-none">
-              {config.person}
-            </span>
-          </div>
-
-          <div>
-            <span className="font-sans font-black text-sm sm:text-base text-slate-900 block leading-tight">
-              {config.label}
-            </span>
-            <span className="font-sans text-[9px] text-slate-600 font-bold">
-              {config.watermark}
-            </span>
-          </div>
-        </div>
-
-        {/* Bank Seal Stamp */}
-        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-red-500 text-red-600 flex items-center justify-center text-[8px] font-black shrink-0">
-          한국은행
-        </div>
-      </div>
-
-      {/* Bottom Bar: Number & Hangul */}
-      <div className="flex justify-between items-center text-[10px] leading-none pt-1 border-t border-slate-300">
-        <span className="font-black text-slate-900">
-          ₩{amount.toLocaleString()}
-        </span>
-        <span className="font-sans font-bold text-slate-700 text-[10px]">
-          {is10k ? '만 원' : '오천 원'}
-        </span>
+      <img
+        src={config.img}
+        alt={config.alt}
+        referrerPolicy="no-referrer"
+        className="w-full h-full object-cover"
+      />
+      {/* Bottom identification label banner */}
+      <div
+        className={`absolute bottom-0 inset-x-0 ${config.badgeBg} text-white font-black text-center text-[10px] sm:text-xs py-0.5 tracking-tight`}
+      >
+        {config.label} 실물 지폐
       </div>
 
       {/* Count Badge */}
       {count !== undefined && count > 0 && (
-        <span className="absolute -top-1 -right-1 bg-slate-950 text-white font-black text-xs px-2 py-0.5 rounded-full shadow-lg border-2 border-white">
+        <span className="absolute -top-1.5 -right-1.5 bg-slate-950 text-white font-black text-xs px-2.5 py-0.5 rounded-full shadow-lg border-2 border-white">
           × {count}장
         </span>
       )}
@@ -147,7 +92,7 @@ interface CoinProps {
 }
 
 /**
- * Real Coin Photo Component (Cropped directly from real high-res macro photo)
+ * 100% Real Photo Korean Coin Component (500원, 100원, 50원, 10원)
  */
 export const KoreanCoin: React.FC<CoinProps> = ({
   amount,
@@ -156,26 +101,25 @@ export const KoreanCoin: React.FC<CoinProps> = ({
   size = 'md',
 }) => {
   const sizeClasses = {
-    sm: 'w-12 h-12 text-[10px]',
-    md: 'w-16 h-16 text-xs',
-    lg: 'w-20 h-20 text-sm',
+    sm: 'w-14 h-14 text-[10px]',
+    md: 'w-18 h-18 text-xs',
+    lg: 'w-24 h-24 text-sm',
   }[size];
 
-  // Specific position for each coin in the real coins photo:
-  // 500 won (leftmost ~16%), 100 won (~41%), 50 won (~64%), 10 won (rightmost ~87%)
+  // Specific offset in macro photo: 500w (0%), 100w (33%), 50w (66%), 10w (100%)
   const coinPhotoOffsets = {
-    500: { posX: '16%', name: '500원 (학)' },
-    100: { posX: '41%', name: '100원 (이순신)' },
-    50: { posX: '64%', name: '50원 (벼)' },
-    10: { posX: '87%', name: '10원 (다보탑)' },
+    500: { offset: '0%', border: 'border-zinc-500', name: '500원 (학)' },
+    100: { offset: '-102%', border: 'border-slate-500', name: '100원 (이순신)' },
+    50: { offset: '-206%', border: 'border-stone-500', name: '50원 (벼)' },
+    10: { offset: '-312%', border: 'border-amber-600', name: '10원 (다보탑)' },
   }[amount];
 
   return (
     <div
-      className={`relative rounded-full border-3 border-slate-400 bg-white shadow-md select-none shrink-0 overflow-hidden flex items-center justify-center ${sizeClasses} ${className}`}
-      title={`실제 ${coinPhotoOffsets.name} 동전 사진`}
+      className={`relative rounded-full border-3 ${coinPhotoOffsets.border} bg-white shadow-md select-none shrink-0 overflow-hidden flex items-center justify-center ${sizeClasses} ${className}`}
+      title={`실제 ${coinPhotoOffsets.name} 동전 실물 사진`}
     >
-      {/* Real Macro Coin Photo Cropped to This Circle */}
+      {/* Real Macro Coin Photo */}
       <div className="w-full h-full relative overflow-hidden rounded-full">
         <img
           src={REAL_COINS_SET_PATH}
@@ -183,23 +127,16 @@ export const KoreanCoin: React.FC<CoinProps> = ({
           referrerPolicy="no-referrer"
           className="absolute max-w-none h-full object-cover pointer-events-none"
           style={{
-            width: '420%',
+            width: '415%',
             height: '100%',
-            left:
-              amount === 500
-                ? '0%'
-                : amount === 100
-                ? '-105%'
-                : amount === 50
-                ? '-210%'
-                : '-315%',
+            left: coinPhotoOffsets.offset,
             top: '0%',
           }}
         />
       </div>
 
-      {/* Subtle overlay denomination tag */}
-      <span className="absolute bottom-0 inset-x-0 bg-slate-900/80 text-white font-black text-[9px] sm:text-[10px] text-center leading-tight py-0.2">
+      {/* Denomination badge */}
+      <span className="absolute bottom-0 inset-x-0 bg-slate-950/85 text-white font-black text-[9px] sm:text-[11px] text-center leading-tight py-0.5">
         {amount}원
       </span>
 
@@ -214,49 +151,76 @@ export const KoreanCoin: React.FC<CoinProps> = ({
 };
 
 /**
- * Currency Showcase Card showing real photo of all coins and 1,000 won bill together
+ * Real Currency Showcase Guide Banner with Photos of All Bills and Coins
  */
 export const RealCurrencyGuideBanner: React.FC = () => {
   return (
     <div className="bg-amber-50 rounded-2xl border-2 border-amber-300 p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-black text-amber-950 flex items-center gap-1.5">
-          <span>📸 실제 대한민국 동전과 지폐 실물 사진</span>
+        <span className="text-sm font-black text-amber-950 flex items-center gap-1.5">
+          <span>📸 실제 대한민국 지폐와 동전 실물 사진 도감</span>
         </span>
-        <span className="text-[11px] text-slate-500 font-bold">
-          실물 크기 비교 학습
+        <span className="text-xs text-slate-600 font-bold">
+          모든 권종 실물 사진 적용
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Real Coins Set Photo */}
-        <div className="bg-white rounded-xl border border-amber-200 p-2 text-center">
-          <span className="text-[11px] font-bold text-slate-700 block mb-1">
-            실제 동전 실물 사진 (500원 · 100원 · 50원 · 10원)
-          </span>
-          <div className="h-20 w-full overflow-hidden rounded-lg border border-slate-200 bg-white">
+      {/* 3 Real Banknotes Row */}
+      <div>
+        <span className="text-[11px] font-bold text-slate-700 block mb-1">
+          실제 지폐 사진 (10,000원 · 5,000원 · 1,000원)
+        </span>
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-xl overflow-hidden border border-emerald-400 bg-white shadow-xs">
             <img
-              src={REAL_COINS_SET_PATH}
-              alt="실제 대한민국 동전 실물 사진"
+              src={REAL_BILL_10000_PATH}
+              alt="10,000원 실물 사진"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-contain"
+              className="w-full h-16 sm:h-20 object-cover"
             />
+            <span className="block text-center font-black text-[10px] sm:text-xs text-emerald-900 bg-emerald-100 py-0.5">
+              10,000원 (세종대왕)
+            </span>
           </div>
-        </div>
 
-        {/* Real 1,000 Won Bill Photo */}
-        <div className="bg-white rounded-xl border border-amber-200 p-2 text-center">
-          <span className="text-[11px] font-bold text-slate-700 block mb-1">
-            실제 1,000원 지폐 실물 사진 (퇴계 이황)
-          </span>
-          <div className="h-20 w-full overflow-hidden rounded-lg border border-slate-200 bg-sky-50">
+          <div className="rounded-xl overflow-hidden border border-orange-400 bg-white shadow-xs">
+            <img
+              src={REAL_BILL_5000_PATH}
+              alt="5,000원 실물 사진"
+              referrerPolicy="no-referrer"
+              className="w-full h-16 sm:h-20 object-cover"
+            />
+            <span className="block text-center font-black text-[10px] sm:text-xs text-orange-900 bg-orange-100 py-0.5">
+              5,000원 (율곡 이이)
+            </span>
+          </div>
+
+          <div className="rounded-xl overflow-hidden border border-sky-400 bg-white shadow-xs">
             <img
               src={REAL_BILL_1000_PATH}
-              alt="실제 대한민국 1,000원 지폐 실물 사진"
+              alt="1,000원 실물 사진"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-contain"
+              className="w-full h-16 sm:h-20 object-cover"
             />
+            <span className="block text-center font-black text-[10px] sm:text-xs text-sky-900 bg-sky-100 py-0.5">
+              1,000원 (퇴계 이황)
+            </span>
           </div>
+        </div>
+      </div>
+
+      {/* Real Coins Set Row */}
+      <div className="bg-white rounded-xl border border-amber-200 p-2 text-center">
+        <span className="text-[11px] font-bold text-slate-700 block mb-1">
+          실제 동전 실물 사진 (500원 · 100원 · 50원 · 10원)
+        </span>
+        <div className="h-16 sm:h-20 w-full overflow-hidden rounded-lg border border-slate-200 bg-white flex items-center justify-center">
+          <img
+            src={REAL_COINS_SET_PATH}
+            alt="실제 대한민국 동전 실물 사진"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-contain"
+          />
         </div>
       </div>
     </div>
