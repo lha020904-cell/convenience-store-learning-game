@@ -241,7 +241,7 @@ export const MoneyPractice: React.FC<MoneyPracticeProps> = ({ onEarnCoins }) => 
           {/* Coins */}
           <div>
             <h4 className="text-sm font-black text-slate-800 mb-2">
-              🪙 동전 그림을 눌러 계산대에 올려보세요:
+              🪙 실제 동전 앞면 사진을 눌러 계산대에 올려보세요:
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <button

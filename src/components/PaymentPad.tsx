@@ -227,10 +227,10 @@ export const PaymentPad: React.FC<PaymentPadProps> = ({
             </div>
           </div>
 
-          {/* Section 2: Coins (동전 그림 & 큰 버튼) */}
+          {/* Section 2: Coins (동전 앞면 실물 사진 & 큰 버튼) */}
           <div>
             <h4 className="text-sm font-black text-slate-800 mb-3 flex items-center gap-2">
-              <span>🪙 동전 올리기</span>
+              <span>🪙 동전 올리기 (앞면 실물 사진: 학 · 이순신 · 벼 · 다보탑)</span>
               <span className="text-xs text-slate-500 font-normal">
                 (원하는 동전을 터치하면 계산대에 올라갑니다)
               </span>
