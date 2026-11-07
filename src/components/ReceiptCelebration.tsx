@@ -5,7 +5,7 @@
 
 import React from 'react';
 import confetti from 'canvas-confetti';
-import { Award, Stamp, RotateCcw, ArrowRight, Printer } from 'lucide-react';
+import { Award, Stamp, RotateCcw, ArrowRight, Printer, Trophy } from 'lucide-react';
 import { CartItem, ShoppingMission } from '../types';
 import { playSuccessFanfare, speakKorean } from '../utils/audio';
 
@@ -18,6 +18,7 @@ interface ReceiptCelebrationProps {
   bagAdded: boolean;
   onNextMission: () => void;
   onRestartMission: () => void;
+  onOpenLeaderboard?: () => void;
 }
 
 export const ReceiptCelebration: React.FC<ReceiptCelebrationProps> = ({
@@ -29,6 +30,7 @@ export const ReceiptCelebration: React.FC<ReceiptCelebrationProps> = ({
   bagAdded,
   onNextMission,
   onRestartMission,
+  onOpenLeaderboard,
 }) => {
   const change = Math.max(0, paidAmount - totalAmount);
 
@@ -75,6 +77,19 @@ export const ReceiptCelebration: React.FC<ReceiptCelebrationProps> = ({
             </span>
           </div>
         </div>
+
+        {/* Real-time Leaderboard Entry CTA */}
+        {onOpenLeaderboard && (
+          <div className="mt-5">
+            <button
+              onClick={onOpenLeaderboard}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white text-orange-600 hover:bg-amber-50 font-black text-sm shadow-md transition-transform active:scale-95 cursor-pointer border-2 border-amber-200"
+            >
+              <Trophy className="w-5 h-5 text-amber-500" />
+              <span>🏆 실시간 명예의 전당(리더보드)에 내 이름 올리기!</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Realistic Receipt Paper with Product Photos */}

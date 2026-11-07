@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Volume2, VolumeX, Music, Award, Stamp } from 'lucide-react';
+import { Volume2, VolumeX, Music, Award, Stamp, Trophy } from 'lucide-react';
 import { bgmManager, speakKorean } from '../utils/audio';
 
 interface HeaderProps {
@@ -14,6 +14,7 @@ interface HeaderProps {
   stampsCount: number;
   onOpenStamps: () => void;
   onOpenCertificate: () => void;
+  onOpenLeaderboard: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -23,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
   stampsCount,
   onOpenStamps,
   onOpenCertificate,
+  onOpenLeaderboard,
 }) => {
   const [bgmActive, setBgmActive] = React.useState(false);
   const [soundEnabled, setSoundEnabled] = React.useState(true);
@@ -139,19 +141,28 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Stamps & Badges Button */}
           <button
             onClick={onOpenStamps}
-            className="h-12 flex items-center gap-2 px-4 rounded-xl bg-amber-50 border-2 border-amber-400 text-amber-950 font-black text-xs hover:bg-amber-100 transition-colors cursor-pointer"
+            className="h-12 flex items-center gap-2 px-3.5 rounded-xl bg-amber-50 border-2 border-amber-400 text-amber-950 font-black text-xs hover:bg-amber-100 transition-colors cursor-pointer"
           >
             <Stamp className="w-4 h-4 text-amber-600" />
             <span>도장 {stampsCount}/5</span>
           </button>
 
+          {/* Real-time Leaderboard Button */}
+          <button
+            onClick={onOpenLeaderboard}
+            className="h-12 flex items-center gap-1.5 px-3.5 rounded-xl bg-linear-to-r from-amber-500 to-orange-500 text-white font-black text-xs hover:from-amber-600 hover:to-orange-600 shadow-xs transition-colors cursor-pointer border-2 border-amber-600"
+          >
+            <Trophy className="w-4 h-4 text-amber-100" />
+            <span>명예의 전당</span>
+          </button>
+
           {/* Certificate Award Button */}
           <button
             onClick={onOpenCertificate}
-            className="hidden lg:flex h-12 items-center gap-1.5 px-4 rounded-xl bg-orange-600 text-white font-black text-xs hover:bg-orange-700 shadow-xs transition-colors cursor-pointer border-2 border-orange-700"
+            className="hidden xl:flex h-12 items-center gap-1.5 px-3.5 rounded-xl bg-orange-600 text-white font-black text-xs hover:bg-orange-700 shadow-xs transition-colors cursor-pointer border-2 border-orange-700"
           >
             <Award className="w-4 h-4" />
-            <span>수료증 받기</span>
+            <span>수료증</span>
           </button>
         </div>
       </div>

@@ -13,6 +13,8 @@ import {
   Plus,
   Minus,
   Trash2,
+  Trophy,
+  Sparkles,
 } from 'lucide-react';
 import {
   ProductItem,
@@ -33,6 +35,9 @@ interface ShoppingGameProps {
   onEarnCoins: (amount: number) => void;
   onEarnStamp: () => void;
   onUnlockBadge: (badgeId: string) => void;
+  onOpenLeaderboard?: () => void;
+  currentCoins?: number;
+  currentStamps?: number;
 }
 
 type GameStep = 'mission_select' | 'shopping' | 'scanning' | 'dialogue' | 'payment' | 'completed';
@@ -41,6 +46,9 @@ export const ShoppingGame: React.FC<ShoppingGameProps> = ({
   onEarnCoins,
   onEarnStamp,
   onUnlockBadge,
+  onOpenLeaderboard,
+  currentCoins,
+  currentStamps,
 }) => {
   // State
   const [selectedLevel, setSelectedLevel] = React.useState<DifficultyLevel>('level1');
@@ -228,6 +236,40 @@ export const ShoppingGame: React.FC<ShoppingGameProps> = ({
                 사진으로 상품을 확인하고, 큰 버튼으로 편안하게 쇼핑 미션을 연습해 보세요.
               </p>
             </div>
+          </div>
+
+          {/* Real-time Leaderboard Link on First Screen */}
+          <div className="bg-linear-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-5 sm:p-6 text-white shadow-lg border-3 border-amber-400 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4 text-center md:text-left">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 border-2 border-white/40 flex items-center justify-center text-3xl shadow-sm shrink-0">
+                🏆
+              </div>
+              <div>
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <span className="bg-white/25 text-white text-[11px] font-black px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                    실시간 연동 중 (Firebase)
+                  </span>
+                  <span className="text-xs text-amber-100 font-bold hidden sm:inline">
+                    우리 학교 명예의 전당
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black mt-1">
+                  실시간 편의점 쇼핑왕 리더보드 확인하기
+                </h3>
+                <p className="text-xs sm:text-sm text-amber-100 mt-0.5">
+                  친구들의 쇼핑 점수와 응원 메시지를 확인하고, 나도 명예의 전당에 도전해 보세요!
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={onOpenLeaderboard}
+              className="w-full md:w-auto h-14 px-7 rounded-2xl bg-white hover:bg-amber-50 text-orange-600 font-black text-base shadow-md flex items-center justify-center gap-2.5 transition-transform active:scale-95 cursor-pointer shrink-0 border-2 border-amber-200"
+            >
+              <Trophy className="w-5 h-5 text-amber-600" />
+              <span>명예의 전당 (리더보드) 열기</span>
+            </button>
           </div>
 
           {/* Level Switcher (Large, simple buttons) */}
@@ -857,6 +899,7 @@ export const ShoppingGame: React.FC<ShoppingGameProps> = ({
             handleStartMission(nextMission);
           }}
           onRestartMission={() => handleStartMission(activeMission)}
+          onOpenLeaderboard={onOpenLeaderboard}
         />
       )}
     </div>

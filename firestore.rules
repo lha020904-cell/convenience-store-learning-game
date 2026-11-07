@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Default-Deny Catch-All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitive validation helpers
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Health check collection for getDocFromServer test
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Validation Blueprint for LeaderboardEntry
+    function isValidLeaderboardEntry(data) {
+      let requiredKeys = ['playerName', 'score', 'stamps', 'level', 'createdAt'];
+      let allowedKeys = ['playerName', 'score', 'stamps', 'level', 'badgeTitle', 'cheersCount', 'comment', 'createdAt', 'userId'];
+      return data.keys().hasAll(requiredKeys) &&
+             data.keys().hasOnly(allowedKeys) &&
+             data.playerName is string &&
+             data.playerName.size() >= 1 &&
+             data.playerName.size() <= 30 &&
+             data.score is number &&
+             data.score >= 0 &&
+             data.score <= 1000000 &&
+             data.stamps is number &&
+             data.stamps >= 0 &&
+             data.stamps <= 100 &&
+             data.level in ['seed', 'sprout', 'fruit'] &&
+             data.createdAt == request.time &&
+             (!('badgeTitle' in data) || (data.badgeTitle is string && data.badgeTitle.size() <= 50)) &&
+             (!('cheersCount' in data) || (data.cheersCount is number && data.cheersCount >= 0)) &&
+             (!('comment' in data) || (data.comment is string && data.comment.size() <= 100)) &&
+             (!('userId' in data) || (data.userId is string && data.userId.size() <= 128));
+    }
+
+    // Leaderboard Collection
+    match /leaderboard/{entryId} {
+      // 1. Read: Public read for real-time educational leaderboard
+      allow get, list: if true;
+
+      // 2. Create: Enforce strict schema validation and document ID safety
+      allow create: if isValidId(entryId) && isValidLeaderboardEntry(incoming());
+
+      // 3. Update: Strictly allow only peer cheer increments (+1)
+      allow update: if isValidId(entryId) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['cheersCount']) &&
+                       incoming().cheersCount is number &&
+                       incoming().cheersCount == existing().cheersCount + 1;
+
+      // 4. Delete: Forbidden to maintain historical integrity
+      allow delete: if false;
+    }
+  }
+}

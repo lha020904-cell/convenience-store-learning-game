@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Student record for real-time convenience store shopping leaderboard",
+      "type": "object",
+      "properties": {
+        "playerName": {
+          "type": "string",
+          "description": "Student name, nickname or class designation",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "score": {
+          "type": "number",
+          "description": "Coins earned in shopping simulation"
+        },
+        "stamps": {
+          "type": "number",
+          "description": "Number of stamps collected"
+        },
+        "level": {
+          "type": "string",
+          "description": "Difficulty level: seed (새싹), sprout (쑥쑥), or fruit (열매)",
+          "enum": ["seed", "sprout", "fruit"]
+        },
+        "badgeTitle": {
+          "type": "string",
+          "description": "Honorary badge title earned",
+          "maxLength": 50
+        },
+        "cheersCount": {
+          "type": "number",
+          "description": "Cheer count received from peers"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Brief learning reflection or note",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Record creation timestamp"
+        }
+      },
+      "required": [
+        "playerName",
+        "score",
+        "stamps",
+        "level",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/leaderboard/{entryId}": {
+      "schema": "#/entities/LeaderboardEntry",
+      "description": "Real-time leaderboard entries for convenience store shopping achievements"
+    }
+  }
+}

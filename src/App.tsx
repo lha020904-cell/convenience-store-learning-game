@@ -11,9 +11,10 @@ import { MoneyPractice } from './components/MoneyPractice';
 import { DialoguePractice } from './components/DialoguePractice';
 import { StampBookModal } from './components/StampBookModal';
 import { CertificateModal } from './components/CertificateModal';
+import { LeaderboardModal } from './components/LeaderboardModal';
 import { INITIAL_BADGES } from './data/missions';
 import { AchievementBadge } from './types';
-import { Heart, Sparkles, BookOpen, Volume2 } from 'lucide-react';
+import { Heart, Sparkles, BookOpen, Volume2, Trophy } from 'lucide-react';
 import { speakKorean } from './utils/audio';
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
 
   const [isStampBookOpen, setIsStampBookOpen] = React.useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = React.useState(false);
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = React.useState(false);
 
   // Sync with localStorage
   React.useEffect(() => {
@@ -84,6 +86,7 @@ export default function App() {
         stampsCount={stampsCount}
         onOpenStamps={() => setIsStampBookOpen(true)}
         onOpenCertificate={() => setIsCertificateOpen(true)}
+        onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
       />
 
       {/* Main Content Viewport */}
@@ -109,7 +112,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() =>
                 speakKorean(
@@ -122,11 +125,18 @@ export default function App() {
               <span>안내 듣기</span>
             </button>
             <button
-              onClick={() => setIsStampBookOpen(true)}
-              className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-black shadow-xs flex items-center gap-1.5 cursor-pointer"
+              onClick={() => setIsLeaderboardOpen(true)}
+              className="px-3.5 py-1.5 rounded-xl bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-black shadow-xs flex items-center gap-1.5 cursor-pointer border border-amber-600"
             >
-              <Sparkles className="w-4 h-4 text-amber-200" />
-              <span>도장판 보기 ({stampsCount}/5)</span>
+              <Trophy className="w-4 h-4 text-amber-200" />
+              <span>실시간 명예의 전당 (리더보드)</span>
+            </button>
+            <button
+              onClick={() => setIsStampBookOpen(true)}
+              className="px-3 py-1.5 rounded-xl bg-white hover:bg-amber-50 text-amber-900 text-xs font-black shadow-xs flex items-center gap-1.5 cursor-pointer border border-amber-300"
+            >
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span>도장판 ({stampsCount}/5)</span>
             </button>
           </div>
         </div>
@@ -137,6 +147,9 @@ export default function App() {
             onEarnCoins={handleEarnCoins}
             onEarnStamp={handleEarnStamp}
             onUnlockBadge={handleUnlockBadge}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
+            currentCoins={coins}
+            currentStamps={stampsCount}
           />
         )}
 
@@ -210,6 +223,13 @@ export default function App() {
         isOpen={isCertificateOpen}
         onClose={() => setIsCertificateOpen(false)}
         stampsCount={stampsCount}
+      />
+
+      <LeaderboardModal
+        isOpen={isLeaderboardOpen}
+        onClose={() => setIsLeaderboardOpen(false)}
+        currentCoins={coins}
+        currentStamps={stampsCount}
       />
     </div>
   );
